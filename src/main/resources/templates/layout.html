@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(pageTitle)">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title th:text="${pageTitle} ?: 'CRM RE/MAX'">CRM RE/MAX</title>
+  <link rel="stylesheet" th:href="@{/app.css}"/>
+</head>
+
+<body th:fragment="layout(content)">
+<header class="topbar">
+  <div class="brand">CRM RE/MAX — MVP</div>
+  <nav class="nav">
+    <a th:href="@{/kanban}">Kanban</a>
+    <a th:href="@{/people}">Pessoas</a>
+    <a th:href="@{/opportunities}">Oportunidades</a>
+  </nav>
+</header>
+
+<main class="container" th:insert="${content}">
+  <!-- content -->
+</main>
+
+<footer class="footer">
+  <small>Java 17 • Spring Boot • PostgreSQL</small>
+</footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Pessoas - CRM RE/MAX')}"></head>
+<body th:replace="~{layout :: layout(~{::section})}">
+<section>
+<h1>Pessoas</h1>
+  <div class="actions">
+    <a class="btn" th:href="@{/people/new}">+ Nova pessoa</a>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Nome</th><th>Categoria</th><th>Seg.</th><th>Influência</th><th>Potencial</th><th>WhatsApp</th><th>Último</th><th>Próximo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p : ${items}">
+        <td th:text="${p.id}">1</td>
+        <td th:text="${p.name}">Nome</td>
+        <td th:text="${p.category}">CAT</td>
+        <td th:text="${p.segment}">A</td>
+        <td th:text="${p.influence}">ALTO</td>
+        <td th:text="${p.potential}">INDICACAO</td>
+        <td th:text="${p.whatsapp}">-</td>
+        <td>
+          <span th:text="${p.lastContact}">2025-12-22</span>
+          <span th:if="${p.lastContactTime != null}" th:text="${' ' + p.lastContactTime}"></span>
+        </td>
+        <td>
+          <span th:text="${p.nextContact}">2025-12-29</span>
+          <span th:if="${p.nextContactTime != null}" th:text="${' ' + p.nextContactTime}"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

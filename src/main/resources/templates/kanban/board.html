@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Kanban - CRM RE/MAX')}"></head>
+<body th:replace="~{layout :: layout(~{::section})}">
+<section>
+<h1>Kanban (Funil)</h1>
+  <div class="actions">
+    <a class="btn" th:href="@{/opportunities/new}">+ Nova oportunidade</a>
+    <a class="btn secondary" th:href="@{/people/new}">+ Nova pessoa</a>
+    <a class="btn secondary" th:href="@{/opportunities}">Lista de oportunidades</a>
+  </div>
+  <p class="muted">MVP: para mover um card, use o seletor de etapa. Fase 2: arrastar e soltar + reordenação (position).</p>
+
+  <div class="kanban">
+    <section class="col" th:each="entry : ${columns}">
+      <div class="col-header" th:text="${entry.key}">NOVO</div>
+
+      <div class="card" th:each="op : ${entry.value}">
+        <div class="card-title" th:text="${op.title} ?: ('Oportunidade #' + op.id)">Oportunidade</div>
+        <div class="card-meta" style="display:flex;justify-content:space-between;align-items:center;">
+          <span th:text="${op.person != null ? op.person.name : '-'}">-</span>
+          <a class="btn tiny secondary" th:href="@{/opportunities/{id}/edit(id=${op.id})}">Editar</a>
+        </div>
+        <div class="card-meta">
+          <span th:text="${op.type}">COMPRA</span>
+          <span th:if="${op.region != null}" th:text="${' • ' + op.region}"></span>
+          <span th:if="${op.estimatedValue != null}" th:text="${' • R$ ' + op.estimatedValue}"></span>
+        </div>
+        <div class="card-meta" th:if="${op.nextDate != null}">
+          Próx.: <span th:text="${op.nextDate}"></span>
+          <span th:if="${op.nextAction != null}" th:text="${' (' + op.nextAction + ')'}"></span>
+        </div>
+
+        <form class="move" th:action="@{/kanban/move}" method="post">
+          <input type="hidden" name="id" th:value="${op.id}"/>
+          <select name="stage">
+            <option th:each="s : ${stages}" th:value="${s}" th:text="${s}" th:selected="${s == op.stage}"></option>
+          </select>
+          <button class="btn tiny" type="submit">Mover</button>
+        </form>
+      </div>
+
+      <div class="empty" th:if="${#lists.isEmpty(entry.value)}">Sem cards</div>
+    </section>
+  </div>
+</section>
+</body>
+</html>

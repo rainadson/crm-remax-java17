@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head('Nova Oportunidade')}"></head>
+
+<body th:replace="~{layout :: layout(~{::main})}">
+<main class="container">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3" th:text="${opportunity.id == null ? 'Nova Oportunidade' : 'Editar Oportunidade'}">Nova Oportunidade</h1>
+    <a class="btn btn-outline-secondary" th:href="@{/opportunities}">Voltar</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+
+      <form th:action="@{/opportunities}" th:object="${opportunity}" method="post" class="row g-3">
+        <input type="hidden" th:if="${opportunity.id != null}" th:field="*{id}"/>
+
+        <div class="col-12">
+          <label class="form-label">Título</label>
+          <input type="text" class="form-control" th:field="*{title}" required maxlength="160"/>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Região</label>
+          <input type="text" class="form-control" th:field="*{region}" maxlength="120"/>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Tipo</label>
+          <select class="form-select" th:field="*{type}">
+            <option th:each="t : ${types}" th:value="${t}" th:text="${t}">VENDA</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Etapa</label>
+          <select class="form-select" th:field="*{stage}">
+            <option th:each="s : ${stages}" th:value="${s}" th:text="${s}">NOVO</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Responsável</label>
+          <select class="form-select" name="personId" required>
+            <option value="" disabled selected>Selecione</option>
+            <option th:each="p : ${people}" th:value="${p.id}" th:text="${p.name}">Pessoa</option>
+          </select>
+          <div class="form-text">No momento, escolhemos o responsável via <code>personId</code> (request param).</div>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Valor Estimado (R$)</label>
+          <!-- AQUI É O PONTO CRÍTICO: estimatedValue (não amount) -->
+          <input type="number" step="0.01" min="0" class="form-control" th:field="*{estimatedValue}"/>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Próxima Ação</label>
+          <input type="text" class="form-control" th:field="*{nextAction}" maxlength="160"/>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Data da Próxima Ação</label>
+          <input type="date" class="form-control" th:field="*{nextDate}"/>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Salvar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

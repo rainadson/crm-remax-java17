@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Oportunidades - CRM RE/MAX')}"></head>
+
+<body th:replace="~{layout :: layout(~{::section})}">
+<section>
+  <h1>Oportunidades</h1>
+
+  <div class="actions">
+    <a class="btn" th:href="@{/opportunities/new}">+ Nova oportunidade</a>
+    <a class="btn secondary" th:href="@{/kanban}">Voltar ao Kanban</a>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Cliente</th>
+        <th>Tipo</th>
+        <th>Etapa</th>
+        <th>Região</th>
+        <th>Próximo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="op : ${items}">
+        <td th:text="${op.id}">1</td>
+        <td th:text="${op.title} ?: ('Oportunidade #' + op.id)">Título</td>
+        <td th:text="${op.person != null ? op.person.name : '-'}">Cliente</td>
+        <td th:text="${op.type}">COMPRA</td>
+        <td th:text="${op.stage}">NOVO</td>
+        <td th:text="${op.region} ?: '-'">-</td>
+        <td>
+          <span th:text="${op.nextDate} ?: '-'">-</span>
+          <span th:if="${op.nextAction != null}" th:text="${' (' + op.nextAction + ')'}"></span>
+        </td>
+        <td style="white-space:nowrap">
+          <a class="btn tiny" th:href="@{/opportunities/{id}/edit(id=${op.id})}">Editar</a>
+          <form th:action="@{/opportunities/{id}/delete(id=${op.id})}" method="post" style="display:inline">
+            <button class="btn tiny secondary" type="submit" onclick="return confirm('Excluir esta oportunidade?')">Excluir</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</body>
+</html>

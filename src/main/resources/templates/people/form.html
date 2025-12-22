@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Nova pessoa - CRM RE/MAX')}"></head>
+<body th:replace="~{layout :: layout(~{::section})}">
+<section>
+<h1>Nova pessoa</h1>
+
+  <form class="form" th:action="@{/people}" th:object="${person}" method="post">
+    <div class="grid">
+      <label>Nome*
+        <input type="text" th:field="*{name}" placeholder="Nome completo"/>
+        <small class="err" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+      </label>
+
+      <label>Categoria*
+        <select th:field="*{category}">
+          <option value="" disabled selected>Selecione</option>
+          <option th:each="c : ${categories}" th:value="${c}" th:text="${c}"></option>
+        </select>
+      </label>
+
+      <label>Segmento*
+        <select th:field="*{segment}">
+          <option value="" disabled selected>Selecione</option>
+          <option th:each="s : ${segments}" th:value="${s}" th:text="${s}"></option>
+        </select>
+      </label>
+
+      <label>Influência
+        <select th:field="*{influence}">
+          <option value="" selected>—</option>
+          <option th:each="i : ${influences}" th:value="${i}" th:text="${i}"></option>
+        </select>
+      </label>
+
+      <label>Potencial
+        <select th:field="*{potential}">
+          <option value="" selected>—</option>
+          <option th:each="p : ${potentials}" th:value="${p}" th:text="${p}"></option>
+        </select>
+      </label>
+
+      <label>WhatsApp
+        <input type="text" th:field="*{whatsapp}" placeholder="(DD) 9xxxx-xxxx"/>
+      </label>
+
+      <label>Último contato (data)
+        <input type="date" th:field="*{lastContact}"/>
+      </label>
+
+      <label>Último contato (hora)
+        <input type="time" th:field="*{lastContactTime}"/>
+      </label>
+
+      <label>Próximo contato (data)
+        <input type="date" th:field="*{nextContact}"/>
+      </label>
+
+      <label>Próximo contato (hora)
+        <input type="time" th:field="*{nextContactTime}"/>
+      </label>
+
+      <label>Observações
+        <textarea th:field="*{notes}" rows="4" placeholder="Contexto, preferências, próximos passos..."></textarea>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="submit">Salvar</button>
+      <a class="btn secondary" th:href="@{/people}">Cancelar</a>
+    </div>
+  </form>
+</section>
+</body>
+</html>
