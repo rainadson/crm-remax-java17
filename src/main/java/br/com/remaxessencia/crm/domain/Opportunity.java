@@ -95,7 +95,7 @@ public class Opportunity {
   public void setStage(Stage stage) {
     this.stage = stage;
   }
-
+ 
   public OpportunityStatus getStatus() {
     return status;
   }
